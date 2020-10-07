@@ -37,11 +37,11 @@ jobs:
           unityVersion: 2019.4.8f1
 
       # Build
-      - name: Build project
-        uses: webbertakken/unity-builder@v0.10
+      - name: Unity - Builder
+        uses: webbertakken/unity-builder@v1.4
         with:
           unityVersion: 2019.4.8f1
-          targetPlatform: WebGL
+          targetPlatform: iOS # Android
 
       # Output
       - uses: actions/upload-artifact@v1
