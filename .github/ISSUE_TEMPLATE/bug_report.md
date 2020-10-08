@@ -1,14 +1,11 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
+name: Отчёт о баге
+about: Создайте отчёт о баге
+title: 'Чётко и кратко опишите суть бага.'
 labels: ''
 assignees: ''
 
 ---
-
-**Заголовок:**
-Чётко и кратко опишите суть бага.
 
 **Шаги воспроизведения:**
 1. Откройте раздел
