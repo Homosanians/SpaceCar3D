@@ -8,15 +8,13 @@ public class TutorialUI : MonoBehaviour
     {
         if (!PersistenceProvider.Instance.GameData.TutorialPassed)
         {
-            Execute();
+            ExecuteTutorial();
+            PersistenceProvider.Instance.GameData.TutorialPassed = true;
         }
     }
 
-    private void Execute()
+    private void ExecuteTutorial()
     {
-        // ...
         throw new System.NotImplementedException();
-
-        PersistenceProvider.Instance.GameData.TutorialPassed = true;
     }
 }

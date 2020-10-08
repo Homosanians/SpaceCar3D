@@ -32,7 +32,7 @@ public class UpgradesUpdatesData
                     Cost = 10,
                     VehicleData = new VehicleData
                     {
-                        FuelConsumptionRate = -0.012f,
+                        FuelConsumptionRate = -0.024f,
                     }
                 },
                 new UpgradeLevelData
@@ -41,7 +41,7 @@ public class UpgradesUpdatesData
                     Cost = 20,
                     VehicleData = new VehicleData
                     {
-                        FuelConsumptionRate = -0.012f,
+                        FuelConsumptionRate = -0.024f,
                     }
                 },
                 new UpgradeLevelData
@@ -50,7 +50,7 @@ public class UpgradesUpdatesData
                     Cost = 40,
                     VehicleData = new VehicleData
                     {
-                        FuelConsumptionRate = -0.012f,
+                        FuelConsumptionRate = -0.024f,
                     }
                 },
                 new UpgradeLevelData
@@ -59,7 +59,7 @@ public class UpgradesUpdatesData
                     Cost = 80,
                     VehicleData = new VehicleData
                     {
-                        FuelConsumptionRate = -0.012f,
+                        FuelConsumptionRate = -0.024f,
                     }
                 },
                 new UpgradeLevelData
@@ -68,7 +68,7 @@ public class UpgradesUpdatesData
                     Cost = 120,
                     VehicleData = new VehicleData
                     {
-                        FuelConsumptionRate = -0.012f,
+                        FuelConsumptionRate = -0.006f,
                     }
                 },
                 new UpgradeLevelData
@@ -77,7 +77,7 @@ public class UpgradesUpdatesData
                     Cost = 160,
                     VehicleData = new VehicleData
                     {
-                        FuelConsumptionRate = -0.012f,
+                        FuelConsumptionRate = -0.006f,
                     }
                 },
                 new UpgradeLevelData
@@ -86,7 +86,7 @@ public class UpgradesUpdatesData
                     Cost = 200,
                     VehicleData = new VehicleData
                     {
-                        FuelConsumptionRate = -0.012f,
+                        FuelConsumptionRate = -0.003f,
                     }
                 },
                 new UpgradeLevelData
@@ -95,7 +95,7 @@ public class UpgradesUpdatesData
                     Cost = 260,
                     VehicleData = new VehicleData
                     {
-                        FuelConsumptionRate = -0.012f,
+                        FuelConsumptionRate = -0.003f,
                     }
                 },
                 new UpgradeLevelData
@@ -104,7 +104,7 @@ public class UpgradesUpdatesData
                     Cost = 320,
                     VehicleData = new VehicleData
                     {
-                        FuelConsumptionRate = -0.012f,
+                        FuelConsumptionRate = -0.003f,
                     }
                 },
                 new UpgradeLevelData
@@ -113,7 +113,7 @@ public class UpgradesUpdatesData
                     Cost = 380,
                     VehicleData = new VehicleData
                     {
-                        FuelConsumptionRate = -0.012f,
+                        FuelConsumptionRate = -0.003f,
                     }
                 }
             }
@@ -130,7 +130,7 @@ public class UpgradesUpdatesData
                     Cost = 10,
                     VehicleData = new VehicleData
                     {
-                        MoveSpeed = 1f,
+                        MoveSpeed = 3f,
                         RotationSpeed = 6,
                     }
                 },
@@ -140,7 +140,7 @@ public class UpgradesUpdatesData
                     Cost = 20,
                     VehicleData = new VehicleData
                     {
-                        MoveSpeed = 1f,
+                        MoveSpeed = 2f,
                         RotationSpeed = 4,
                     }
                 },
@@ -150,7 +150,7 @@ public class UpgradesUpdatesData
                     Cost = 40,
                     VehicleData = new VehicleData
                     {
-                        MoveSpeed = 1,
+                        MoveSpeed = 1.5f,
                         RotationSpeed = 4,
                     }
                 },
@@ -170,7 +170,7 @@ public class UpgradesUpdatesData
                     Cost = 120,
                     VehicleData = new VehicleData
                     {
-                        MoveSpeed = 1,
+                        MoveSpeed = 0.5f,
                         RotationSpeed = 4,
                     }
                 },
@@ -180,7 +180,7 @@ public class UpgradesUpdatesData
                     Cost = 160,
                     VehicleData = new VehicleData
                     {
-                        MoveSpeed = 1,
+                        MoveSpeed = 0.4f,
                         RotationSpeed = 4,
                     }
                 },
@@ -190,7 +190,7 @@ public class UpgradesUpdatesData
                     Cost = 200,
                     VehicleData = new VehicleData
                     {
-                        MoveSpeed = 1,
+                        MoveSpeed = 0.4f,
                         RotationSpeed = 4,
                     }
                 },
@@ -200,7 +200,7 @@ public class UpgradesUpdatesData
                     Cost = 260,
                     VehicleData = new VehicleData
                     {
-                        MoveSpeed = 1,
+                        MoveSpeed = 0.4f,
                         RotationSpeed = 4,
                     }
                 },
@@ -210,7 +210,7 @@ public class UpgradesUpdatesData
                     Cost = 320,
                     VehicleData = new VehicleData
                     {
-                        MoveSpeed = 1,
+                        MoveSpeed = 0.4f,
                         RotationSpeed = 4,
                     }
                 },
@@ -220,7 +220,7 @@ public class UpgradesUpdatesData
                     Cost = 380,
                     VehicleData = new VehicleData
                     {
-                        MoveSpeed = 1,
+                        MoveSpeed = 0.4f,
                         RotationSpeed = 4,
                     }
                 }
