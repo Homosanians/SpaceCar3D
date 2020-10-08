@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TutorialUI : MonoBehaviour
 {
+    public UnityEvent OnGameFirstStart;
+
     private void Start()
     {
         if (!PersistenceProvider.Instance.GameData.TutorialPassed)
@@ -15,6 +18,6 @@ public class TutorialUI : MonoBehaviour
 
     private void ExecuteTutorial()
     {
-        throw new System.NotImplementedException();
+        OnGameFirstStart.Invoke();
     }
 }
