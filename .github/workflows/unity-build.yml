@@ -19,9 +19,7 @@ jobs:
       matrix:
         projectPath:
           - ./
-          - ./
         unityVersion:
-          - 2019.4.8f1
           - 2019.4.8f1
         targetPlatform:
           - iOS # Build an iOS player.
