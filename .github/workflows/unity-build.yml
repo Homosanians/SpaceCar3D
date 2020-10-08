@@ -2,9 +2,9 @@ name: Build project
 
 on:
   push:
-    branches: [ main ]
+    branches: [ feature/* ]
   pull_request:
-    branches: [ main ]
+    branches: [ feature/* ]
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
