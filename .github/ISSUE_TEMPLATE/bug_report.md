@@ -7,32 +7,33 @@ assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Заголовок:**
+Чётко и кратко опишите суть бага.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**Шаги воспроизведения:**
+1. Откройте раздел
+2. Активируйте поле ввода
+3.
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Фактический результат:**
+Когда я совершаю А, происходит Б
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Ожидаемый результат:**
+Когда я совершаю А, должно происходить В
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**Документы:**
+Во возможности, добавьте скриншоты или видео чтобы показать проблему.
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**Техническая информация:**
+ - Устройство: [например iPhone XS MAX]
+ - OS: [например iOS]
+ - Версия игры: [например 1.0]
 
-**Additional context**
-Add any other context about the problem here.
+**Тип проблемы:**
+Падение приложения, Зависание приложения, Неработающая функциональность, Потеря данных, Производительность, Косметическое несоответствие, Ошибка в тексте, Другое (выбрать одно)
+
+**Приоритет:**
+Низкий, средний, высокий, критический (выбрать одно)
+
+**Дополнительные сведения:**
+н/д
