@@ -5,23 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class DragIndicatorUI : MonoBehaviour
 {
-    static public Vector3 startPos;
-    Vector3 endPos;
     [SerializeField]
-    private Camera camera;
     public LineRenderer lr;
-
-    Vector3 camOldPos;
-    Vector3 camNewPos;
-
-    Vector3 camOffset;
 
     // Start is called before the first frame update
     void Start()
     {
         //camera = Camera.main;
         lr = GetComponent<LineRenderer>();
-        camOldPos = camera.transform.position;
     }
 
     void RenderLine(Vector3 startPoint, Vector3 endPoint)
@@ -39,33 +30,33 @@ public class DragIndicatorUI : MonoBehaviour
         lr.positionCount = 0;
     }
 
-    private Vector2 _StartMousePos;
+    private Vector2 _StartMousePos = Vector3.zero;
+    private Vector3 startPosition;
 
     // Update is called once per frame
     void Update()
     {
-        camNewPos = camera.transform.position;
-
-        camOffset = camNewPos - camOldPos;
-
         if (Input.GetMouseButtonDown(0))
         {
             _StartMousePos = Input.mousePosition;
+
+            startPosition = new Vector3(
+                MathUtil.Map(Input.mousePosition.x, 0, Screen.width, -2.8f, 2.8f),
+                MathUtil.Map(Input.mousePosition.y, 0, Screen.height, -6.1f, 6.1f),
+                0);
         }
-
-
 
         if (Input.GetMouseButton(0))
         {
-            Vector3 startPos = camera.ScreenToWorldPoint(_StartMousePos);
-            Vector3 currentPoint = camera.ScreenToWorldPoint(Input.mousePosition);
-            startPos = new Vector3(startPos.x, startPos.y, -2.5f);
-            currentPoint = new Vector3(currentPoint.x, currentPoint.y, -2.5f);
             print(Input.mousePosition);
-            RenderLine(startPos, currentPoint);
-        }
 
-        camOldPos = camera.transform.position;
+            Vector3 thisPosition = new Vector3(
+                MathUtil.Map(Input.mousePosition.x, 0, Screen.width, -2.8f, 2.8f),
+                MathUtil.Map(Input.mousePosition.y, 0, Screen.height, -6.1f, 6.1f),
+                0);
+
+            RenderLine(startPosition, thisPosition);
+        }
 
         if (Input.GetMouseButtonUp(0))
         {
