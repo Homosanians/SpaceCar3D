@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class TutorialUI : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject[] gameObjectsToHide;
+
     private void Start()
     {
         if (!PersistenceProvider.Instance.GameData.TutorialPassed)
         {
-            Execute();
+            ExecuteTutorial();
+            PersistenceProvider.Instance.GameData.TutorialPassed = true;
         }
     }
 
-    private void Execute()
+    private void ExecuteTutorial()
     {
-        // ...
-        throw new System.NotImplementedException();
-
-        PersistenceProvider.Instance.GameData.TutorialPassed = true;
+        foreach(GameObject go in gameObjectsToHide)
+        {
+            go.SetActive(false);
+        }
     }
 }
