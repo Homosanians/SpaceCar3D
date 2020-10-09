@@ -43,6 +43,7 @@ public class UpgradeCardController
             Card.NextLevelCard.Unlocked = true;
 
             OnAnyCardUpgrade?.Invoke();
+            return true;
         }
 
         return false;
