@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.025130648, g: 0.19410145, b: 0.5690475, a: 1}
+  m_IndirectSpecularColor: {r: 0.025078556, g: 0.19407544, b: 0.5690295, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1048,6 +1048,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+        - m_Target: {fileID: 2098681877}
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
 --- !u!1 &171799895
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,7 +1240,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 238740445}
-  m_LocalRotation: {x: 0.12502009, y: 0.69596696, z: -0.1250201, w: 0.69596696}
+  m_LocalRotation: {x: 0.12502009, y: 0.695967, z: -0.1250201, w: 0.6959669}
   m_LocalPosition: {x: -80, y: 48.4, z: 0.000009536743}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1961,7 +1972,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.013366699, y: -0.018371582}
+  m_AnchoredPosition: {x: 0.013366699, y: -0.018432617}
   m_SizeDelta: {x: 0.02709961, y: -0.03967285}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &613933635
@@ -2054,7 +2065,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 613933635}
-  m_LocalRotation: {x: 0.15690516, y: 0.68947864, z: -0.15690516, w: 0.68947864}
+  m_LocalRotation: {x: 0.15690516, y: 0.6894787, z: -0.15690519, w: 0.6894786}
   m_LocalPosition: {x: -10, y: 5.1, z: 0.0000011920929}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2444,7 +2455,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 856508732}
-  m_LocalRotation: {x: 0.011145695, y: -0.30297482, z: 0.003543677, w: 0.9529268}
+  m_LocalRotation: {x: 0.011145684, y: -0.30297485, z: 0.0035436754, w: 0.9529268}
   m_LocalPosition: {x: 4.6499996, y: 1.23, z: -5.7300005}
   m_LocalScale: {x: 0.24344292, y: 0.24344285, z: 0.2434429}
   m_Children:
@@ -4156,6 +4167,10 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1682941667, guid: 7f17fb29148d358419b8410597ed65ad, type: 3}
+      propertyPath: OnRanOutOfFuel.m_PersistentCalls.m_Calls.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682941667, guid: 7f17fb29148d358419b8410597ed65ad, type: 3}
       propertyPath: joystick
       value: 
       objectReference: {fileID: 496919403}
@@ -4207,6 +4222,26 @@ PrefabInstance:
       propertyPath: OnRefueled.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 856508739}
+    - target: {fileID: 1682941667, guid: 7f17fb29148d358419b8410597ed65ad, type: 3}
+      propertyPath: OnRanOutOfFuel.m_PersistentCalls.m_Calls.Array.data[6].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682941667, guid: 7f17fb29148d358419b8410597ed65ad, type: 3}
+      propertyPath: OnRanOutOfFuel.m_PersistentCalls.m_Calls.Array.data[6].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682941667, guid: 7f17fb29148d358419b8410597ed65ad, type: 3}
+      propertyPath: OnRanOutOfFuel.m_PersistentCalls.m_Calls.Array.data[6].m_Target
+      value: 
+      objectReference: {fileID: 2098681877}
+    - target: {fileID: 1682941667, guid: 7f17fb29148d358419b8410597ed65ad, type: 3}
+      propertyPath: OnRanOutOfFuel.m_PersistentCalls.m_Calls.Array.data[6].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682941667, guid: 7f17fb29148d358419b8410597ed65ad, type: 3}
+      propertyPath: OnRanOutOfFuel.m_PersistentCalls.m_Calls.Array.data[6].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1697387341, guid: 7f17fb29148d358419b8410597ed65ad, type: 3}
       propertyPath: m_BoundingSphereOverride.x
       value: -0.6485055
@@ -4591,7 +4626,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1874256682}
-  m_LocalRotation: {x: 0.011145695, y: -0.30297482, z: 0.003543677, w: 0.9529268}
+  m_LocalRotation: {x: 0.011145684, y: -0.30297485, z: 0.0035436754, w: 0.9529268}
   m_LocalPosition: {x: 4.6499996, y: 1.23, z: -5.7300005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4893,7 +4928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2098681878
 Transform:
   m_ObjectHideFlags: 0
@@ -4939,7 +4974,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4971,13 +5006,22 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.8888893
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.29629624
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -4985,7 +5029,7 @@ LineRenderer:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key2: {r: 0, g: 0, b: 0, a: 0.36078432}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -5000,8 +5044,8 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 39707
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -5009,9 +5053,9 @@ LineRenderer:
       atime7: 0
       m_Mode: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 10
     alignment: 0
     textureMode: 0
     shadowBias: 0.5

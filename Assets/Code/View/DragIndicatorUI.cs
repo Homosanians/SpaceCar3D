@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Unity.Jobs.LowLevel.Unsafe;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
@@ -33,6 +35,8 @@ public class DragIndicatorUI : MonoBehaviour
     private Vector2 _StartMousePos = Vector3.zero;
     private Vector3 startPosition;
 
+    private const float jopa = 414 / 2.83f;
+
     // Update is called once per frame
     void Update()
     {
@@ -40,20 +44,18 @@ public class DragIndicatorUI : MonoBehaviour
         {
             _StartMousePos = Input.mousePosition;
 
-            startPosition = new Vector3(
-                MathUtil.Map(Input.mousePosition.x, 0, Screen.width, -2.8f, 2.8f),
-                MathUtil.Map(Input.mousePosition.y, 0, Screen.height, -6.1f, 6.1f),
-                0);
+            float xPos = MathUtil.Map(Input.mousePosition.x, 0, Screen.width, -Screen.width / 2, Screen.width / 2);
+            float yPos = MathUtil.Map(Input.mousePosition.y, 0, Screen.height, -Screen.height / 2, Screen.height / 2);
+            startPosition = new Vector3(xPos / jopa, yPos / jopa, 0);
         }
 
         if (Input.GetMouseButton(0))
         {
             print(Input.mousePosition);
 
-            Vector3 thisPosition = new Vector3(
-                MathUtil.Map(Input.mousePosition.x, 0, Screen.width, -2.8f, 2.8f),
-                MathUtil.Map(Input.mousePosition.y, 0, Screen.height, -6.1f, 6.1f),
-                0);
+            float xPos = MathUtil.Map(Input.mousePosition.x, 0, Screen.width, -Screen.width / 2, Screen.width / 2);
+            float yPos = MathUtil.Map(Input.mousePosition.y, 0, Screen.height, -Screen.height / 2, Screen.height / 2);
+            Vector3 thisPosition = new Vector3(xPos / jopa, yPos / jopa, 0);
 
             RenderLine(startPosition, thisPosition);
         }
@@ -64,3 +66,6 @@ public class DragIndicatorUI : MonoBehaviour
         }
     }
 }
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
