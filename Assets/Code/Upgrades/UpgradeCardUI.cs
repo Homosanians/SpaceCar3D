@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using DG.Tweening;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,21 +21,11 @@ public class UpgradeCardUI : MonoBehaviour
 
     private UpgradeCardController upgradeCardController;
 
+    private Vector2 startPosition;
+
     private void Awake()
     {
-        /*System.Xml.Serialization.XmlSerializer xsSubmit = new System.Xml.Serialization.XmlSerializer(typeof(UpgradeCard));
-        var xml = "";
-        
-        using (var sww = new System.IO.StringWriter())
-        {
-            using (System.Xml.XmlWriter writer = System.Xml.XmlWriter.Create(sww))
-            {
-                xsSubmit.Serialize(writer, new UpgradeCard(cardId));
-                xml = sww.ToString();
-            }
-        }
-
-        Debug.Log(xml);*/
+        startPosition = transform.position;
 
         upgradeCardController = new UpgradeCardController(cardId);
 
@@ -60,7 +53,29 @@ public class UpgradeCardUI : MonoBehaviour
         {
             var updated = upgradeCardController.TryUpgrade();
 
+            PlayAnimation(updated);
+
             UpdateUI();
+        }
+    }
+
+    private void PlayAnimation(bool successfulUpgrade)
+    {
+        transform.position = startPosition;
+
+        if (successfulUpgrade)
+        {
+            transform.DOMoveY(startPosition.y - 40, 0.1f, true).OnComplete(() =>
+            {
+                transform.DOMoveY(startPosition.y, 0.2f, true);
+            });
+        }
+        else
+        {
+            transform.DOShakePosition(0.2f, 20, 30).OnComplete(() =>
+            {
+                transform.position = startPosition;
+            });
         }
     }
 }

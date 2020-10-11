@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TutorialUI : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] gameObjectsToHide;
+    public UnityEvent OnGameFirstStart;
 
     private void Start()
     {
@@ -18,9 +18,6 @@ public class TutorialUI : MonoBehaviour
 
     private void ExecuteTutorial()
     {
-        foreach(GameObject go in gameObjectsToHide)
-        {
-            go.SetActive(false);
-        }
+        OnGameFirstStart.Invoke();
     }
 }

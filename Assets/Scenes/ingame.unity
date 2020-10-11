@@ -4725,6 +4725,7 @@ GameObject:
   - component: {fileID: 2023261719}
   - component: {fileID: 2023261718}
   - component: {fileID: 2023261721}
+  - component: {fileID: 2023261722}
   m_Layer: 5
   m_Name: FuelPanelButton
   m_TagString: Untagged
