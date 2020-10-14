@@ -1,6 +1,7 @@
 ﻿using GameAnalyticsSDK;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Vehicle : MonoBehaviour
@@ -11,7 +12,7 @@ public class Vehicle : MonoBehaviour
     private float tapHold = 0f;
 
     [SerializeField]
-    private float tapHoldThreshold = 0.3f;
+    private float tapHoldThreshold = 0.1f;
 
     [Header("Mics")]
 
@@ -220,7 +221,7 @@ public class Vehicle : MonoBehaviour
         if (State == VehicleMovementStates.Grounded)
         {
 #if UNITY_EDITOR
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject(0))
             {
                 tapHold = Time.time;
             }
@@ -238,7 +239,7 @@ public class Vehicle : MonoBehaviour
         {
             if (touch.fingerId == 0)
             {
-                if (Input.GetTouch(0).phase == TouchPhase.Began)
+                if (Input.GetTouch(0).phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(0))
                 {
                     tapHold = Time.time;
                 }

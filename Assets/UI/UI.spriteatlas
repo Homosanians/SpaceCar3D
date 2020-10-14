@@ -45,11 +45,13 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 5a52643dc71ef434c97a7500858581ff, type: 3}
     - {fileID: 2800000, guid: aee6e2f3ee45e4cc0b49b8f6905ec5c0, type: 3}
     - {fileID: 2800000, guid: 8aba8d55037ae458aa5449ee92c09e7d, type: 3}
-    totalSpriteSurfaceArea: 11823942
+    - {fileID: 2800000, guid: d08bc761f650d4bd59548eb20eeb4e1f, type: 3}
+    totalSpriteSurfaceArea: 11957167
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: a40fa4000a8ae4adba1202f74f0df3d7, type: 3}
+  - {fileID: 21300000, guid: d08bc761f650d4bd59548eb20eeb4e1f, type: 3}
   - {fileID: 21300000, guid: a45cb36226dcb4c498c4cc4497a467c0, type: 3}
   - {fileID: 21300000, guid: 5dd3ac730233a48d9af8370d93ccf92c, type: 3}
   - {fileID: 21300000, guid: aee6e2f3ee45e4cc0b49b8f6905ec5c0, type: 3}
@@ -66,6 +68,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c47551ef47fd64f45a23d142b39e3ebf, type: 3}
   m_PackedSpriteNamesToIndex:
   - Rectangle 3
+  - Ellipse 4
   - Panel
   - CarSpeedICO
   - starGolden
