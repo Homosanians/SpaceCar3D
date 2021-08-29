@@ -305,11 +305,6 @@ namespace GameAnalyticsSDK.Wrapper
             return "";
         }
 
-        private static void subscribeMoPubImpressions()
-        {
-            Debug.Log("subscribeMoPubImpressions()");
-        }
-
         private static void startTimer(string key)
         {
             Debug.Log("startTimer(" + key + ")");
@@ -645,15 +640,6 @@ namespace GameAnalyticsSDK.Wrapper
                 }
             }
             return GA_MiniJSON.Serialize(table);
-        }
-
-        public static void SubscribeMoPubImpressions()
-        {
-#if UNITY_EDITOR
-            subscribeMoPubImpressions();
-#elif UNITY_IOS || UNITY_ANDROID
-            subscribeMoPubImpressions();
-#endif
         }
 
         // TIMER FUNCTIONS

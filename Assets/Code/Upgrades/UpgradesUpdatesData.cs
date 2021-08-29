@@ -13,9 +13,9 @@ public class UpgradesUpdatesData
         FuelConsumptionRate = 0.16f,
         FuelMax = 1,
         PushbackForward = 50,
-        MoveSpeed = 6,
-        PushbackUp = 5,
-        RotationSpeed = 60
+        MoveSpeed = 10,
+        PushbackUp = 10,
+        RotationSpeed = 150
     };
 
     public List<UpgradeCard> UpgradeCards { get; set; } = new List<UpgradeCard>

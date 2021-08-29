@@ -53,7 +53,7 @@ namespace GameAnalyticsSDK.Setup
         /// The version of the GA Unity Wrapper plugin
         /// </summary>
         [HideInInspector]
-        public static string VERSION = "6.3.0";
+        public static string VERSION = "7.0.3";
 
         [HideInInspector]
         public static bool CheckingForUpdates = false;
@@ -183,6 +183,7 @@ namespace GameAnalyticsSDK.Setup
 
         public bool UsePlayerSettingsBuildNumber = false;
         public bool SubmitErrors = true;
+        public bool NativeErrorReporting = false;
         public int MaxErrorCount = 10;
         public bool SubmitFpsAverage = true;
         public bool SubmitFpsCritical = true;
@@ -378,7 +379,6 @@ namespace GameAnalyticsSDK.Setup
                 {
                     this.gameKey[index] = "";
                 }
-                this.gameKey[index] = value;
             }
             else
             {
@@ -400,7 +400,6 @@ namespace GameAnalyticsSDK.Setup
                 {
                     this.secretKey[index] = "";
                 }
-                this.secretKey[index] = value;
             }
             else
             {

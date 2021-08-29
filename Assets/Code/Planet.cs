@@ -4,7 +4,7 @@ using UnityEngine;
 public class Planet : MonoBehaviour
 {
     [SerializeField]
-    private float gravity = -10f;
+    private float gravity;
 
     [SerializeField]
     private float sphereOfInfluenceRatio = 4f;
@@ -71,11 +71,11 @@ public class Planet : MonoBehaviour
     private void Attract(Rigidbody body)
     {
         Vector3 normalized = (body.position - transform.position).normalized;
-
+        
         float pullForce = gravity * GetDistanceFactor01(body.transform);
         pullForce = -Mathf.Abs(pullForce);
-
-        body.AddForce(-body.velocity); // ЕТакже как вариант увеличивать rigidbody.drag при вхождении в сферу влияния и уменьшать значение по мере приближения
+        
+        body.AddForce(-body.velocity); // Также как вариант увеличивать rigidbody.drag при вхождении в сферу влияния и уменьшать значение по мере приближения
         body.AddForce(normalized * pullForce);
     }
 

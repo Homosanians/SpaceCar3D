@@ -18,6 +18,10 @@ public class TutorialUI : MonoBehaviour
 
     private void ExecuteTutorial()
     {
+<<<<<<< Updated upstream
         OnGameFirstStart.Invoke();
+=======
+        throw new System.NotImplementedException();
+>>>>>>> Stashed changes
     }
 }

@@ -14,6 +14,12 @@ namespace GameAnalyticsSDK.Wrapper
         private static readonly AndroidJavaClass GA = new AndroidJavaClass("com.gameanalytics.sdk.GameAnalytics");
         private static readonly AndroidJavaClass UNITY_GA = new AndroidJavaClass("com.gameanalytics.sdk.unity.UnityGameAnalytics");
         private static readonly AndroidJavaClass GA_IMEI = new AndroidJavaClass("com.gameanalytics.sdk.imei.GAImei");
+#if gameanalytics_mopub_enabled
+        private static readonly AndroidJavaClass MoPubClass = new AndroidJavaClass("com.mopub.unity.MoPubUnityPlugin");
+#endif
+#if gameanalytics_topon_enabled
+        private static readonly AndroidJavaClass TopOnClass = new AndroidJavaClass("com.anythink.core.api.ATSDK");
+#endif
 
         private static void configureAvailableCustomDimensions01(string list)
         {
@@ -113,10 +119,10 @@ namespace GameAnalyticsSDK.Wrapper
             AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             AndroidJavaObject activity = jc.GetStatic<AndroidJavaObject>("currentActivity");
 
-            GA.CallStatic("setEnabledErrorReporting", false);
+            GA.CallStatic("setEnabledErrorReporting", GameAnalytics.SettingsGA.NativeErrorReporting);
             AndroidJavaClass ga = new AndroidJavaClass("com.gameanalytics.sdk.GAPlatform");
-            ga.CallStatic("initializeWithActivity", activity);
-            GA.CallStatic("initializeWithGameKey", gamekey, gamesecret);
+            ga.CallStatic("initialize", activity);
+            GA.CallStatic("initialize", gamekey, gamesecret);
         }
 
         private static void setCustomDimension01(string customDimension)
@@ -136,42 +142,42 @@ namespace GameAnalyticsSDK.Wrapper
 
         private static void addBusinessEvent(string currency, int amount, string itemType, string itemId, string cartType, string fields)
         {
-            GA.CallStatic("addBusinessEventWithCurrency", currency, amount, itemType, itemId, cartType/*, fields*/);
+            GA.CallStatic("addBusinessEvent", currency, amount, itemType, itemId, cartType/*, fields*/);
         }
 
         private static void addBusinessEventWithReceipt(string currency, int amount, string itemType, string itemId, string cartType, string receipt, string store, string signature, string fields)
         {
-            GA.CallStatic("addBusinessEventWithCurrency", currency, amount, itemType, itemId, cartType, receipt, store, signature/*, fields*/);
+            GA.CallStatic("addBusinessEvent", currency, amount, itemType, itemId, cartType, receipt, store, signature/*, fields*/);
         }
 
         private static void addResourceEvent(int flowType, string currency, float amount, string itemType, string itemId, string fields)
         {
-            GA.CallStatic("addResourceEventWithFlowType", flowType, currency, amount, itemType, itemId/*, fields*/);
+            GA.CallStatic("addResourceEvent", flowType, currency, amount, itemType, itemId/*, fields*/);
         }
 
         private static void addProgressionEvent(int progressionStatus, string progression01, string progression02, string progression03, string fields)
         {
-            GA.CallStatic("addProgressionEventWithProgressionStatus", progressionStatus, progression01, progression02, progression03/*, fields*/);
+            GA.CallStatic("addProgressionEvent", progressionStatus, progression01, progression02, progression03/*, fields*/);
         }
 
         private static void addProgressionEventWithScore(int progressionStatus, string progression01, string progression02, string progression03, int score, string fields)
         {
-            GA.CallStatic("addProgressionEventWithProgressionStatus", progressionStatus, progression01, progression02, progression03, (double)score/*, fields*/);
+            GA.CallStatic("addProgressionEvent", progressionStatus, progression01, progression02, progression03, (double)score/*, fields*/);
         }
 
         private static void addDesignEvent(string eventId, string fields)
         {
-            GA.CallStatic("addDesignEventWithEventId", eventId/*, fields*/);
+            GA.CallStatic("addDesignEvent", eventId/*, fields*/);
         }
 
         private static void addDesignEventWithValue(string eventId, float value, string fields)
         {
-            GA.CallStatic("addDesignEventWithEventId", eventId, (double)value/*, fields*/);
+            GA.CallStatic("addDesignEvent", eventId, (double)value/*, fields*/);
         }
 
         private static void addErrorEvent(int severity, string message, string fields)
         {
-            GA.CallStatic("addErrorEventWithSeverity", severity, message/*, fields*/);
+            GA.CallStatic("addErrorEvent", severity, message/*, fields*/);
         }
 
         private static void addAdEventWithDuration(int adAction, int adType, string adSdkName, string adPlacement, long duration)
@@ -242,16 +248,6 @@ namespace GameAnalyticsSDK.Wrapper
         private static string getABTestingVariantId()
         {
             return GA.CallStatic<string>("getABTestingVariantId");
-        }
-
-        private static void subscribeMoPubImpressions()
-        {
-            GAMopubIntegration.ListenForImpressions(ImpressionHandler);
-        }
-
-        private static void ImpressionHandler(string json)
-        {
-            GA.CallStatic("addImpressionMoPubEvent", json);
         }
 
         private static void startTimer(string key)

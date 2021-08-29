@@ -1,7 +1,11 @@
 // Author: Daniele Giardini - http://www.demigiant.com
 // Created: 2018/07/13
 
+<<<<<<< Updated upstream
 #if true // MODULE_MARKER
+=======
+#if false // MODULE_MARKER
+>>>>>>> Stashed changes
 using System;
 using DG.Tweening.Core;
 using DG.Tweening.Core.Enums;

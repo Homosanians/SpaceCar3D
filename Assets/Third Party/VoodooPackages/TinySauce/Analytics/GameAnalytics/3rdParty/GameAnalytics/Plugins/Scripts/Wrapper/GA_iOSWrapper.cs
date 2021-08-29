@@ -39,7 +39,7 @@ namespace GameAnalyticsSDK.Wrapper
         private static extern void configureAutoDetectAppVersion(bool flag);
 
         [DllImport ("__Internal")]
-        private static extern void initialize(string gamekey, string gamesecret);
+        private static extern void gaInitialize(string gamekey, string gamesecret, bool nativeErrorReporting);
 
         [DllImport ("__Internal")]
         private static extern void setCustomDimension01(string customDimension);
@@ -84,7 +84,7 @@ namespace GameAnalyticsSDK.Wrapper
         private static extern void addAdEvent(int adAction, int adType, string adSdkName, string adPlacement);
 
         [DllImport ("__Internal")]
-        private static extern void addImpressionEvent(string adNetworkName, string impressionData);
+        private static extern void addImpressionEvent(string adNetworkName, string adNetworkVersion, string impressionData);
 
         [DllImport ("__Internal")]
         private static extern void setEnabledInfoLog(bool enabled);
@@ -135,18 +135,11 @@ namespace GameAnalyticsSDK.Wrapper
         [DllImport ("__Internal")]
         private static extern long stopTimer(string key);
 
-        private static void subscribeMoPubImpressions()
+        private static void initialize(string gamekey, string gamesecret)
         {
-            GAMopubIntegration.ListenForImpressions(ImpressionHandler);
+            gaInitialize(gamekey, gamesecret, GameAnalytics.SettingsGA.NativeErrorReporting);
         }
 
-        private static void ImpressionHandler(string json)
-        {
-            if(!string.IsNullOrEmpty(json))
-            {
-                addImpressionEvent("mopub", json);
-            }
-        }
 #endif
     }
 }

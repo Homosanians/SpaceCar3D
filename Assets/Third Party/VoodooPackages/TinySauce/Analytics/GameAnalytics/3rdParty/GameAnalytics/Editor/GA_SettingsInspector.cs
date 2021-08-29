@@ -12,7 +12,7 @@ using System;
 using GameAnalyticsSDK.Utilities;
 using GameAnalyticsSDK.Setup;
 using System.Text.RegularExpressions;
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
 using UnityEngine.Networking;
 #endif
 
@@ -21,6 +21,9 @@ namespace GameAnalyticsSDK.Editor
     [CustomEditor(typeof(GameAnalyticsSDK.Setup.Settings))]
     public class GA_SettingsInspector : UnityEditor.Editor
     {
+        public const bool IsCustomPackage = false;
+        private const string AssetsPrependPath = IsCustomPackage ? "Packages/com.gameanalytics.sdk" : "Assets/GameAnalytics";
+
         private GUIContent _publicKeyLabel = new GUIContent("Game Key", "Your GameAnalytics Game Key - copy/paste from the GA website.");
         private GUIContent _privateKeyLabel = new GUIContent("Secret Key", "Your GameAnalytics Secret Key - copy/paste from the GA website.");
         private GUIContent _emailLabel = new GUIContent("Email", "Your GameAnalytics user account email.");
@@ -52,6 +55,7 @@ namespace GameAnalyticsSDK.Editor
         private GUIContent _gaFpsCritical = new GUIContent("Submit Critical FPS", "Submit a message whenever the frames per second falls below a certain threshold. The location of the Track Target will be used for critical FPS events.");
         private GUIContent _gaFpsCriticalThreshold = new GUIContent("FPS <", "Frames per second threshold.");
         private GUIContent _gaSubmitErrors = new GUIContent("Submit Errors", "Submit error and exception messages to the GameAnalytics server. Useful for getting relevant data when the game crashes, etc.");
+        private GUIContent _gaNativeErrorReporting = new GUIContent("Native error reporting (Android, iOS)", "Submit error and exception messages from native errors and exceptions to the GameAnalytics server. Useful for getting relevant data when the game crashes, etc. from native code.");
 
         private GUIContent _gameSetupIcon;
         private bool _gameSetupIconOpen = false;
@@ -96,42 +100,42 @@ namespace GameAnalyticsSDK.Editor
 
             if (ga.UpdateIcon == null)
             {
-                ga.UpdateIcon = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/GameAnalytics/Gizmos/GameAnalytics/Images/update_orange.png", typeof(Texture2D));
+                ga.UpdateIcon = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetsPrependPath + "/Gizmos/GameAnalytics/Images/update_orange.png", typeof(Texture2D));
             }
 
             if (ga.DeleteIcon == null)
             {
-                ga.DeleteIcon = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/GameAnalytics/Gizmos/GameAnalytics/Images/delete.png", typeof(Texture2D));
+                ga.DeleteIcon = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetsPrependPath + "/Gizmos/GameAnalytics/Images/delete.png", typeof(Texture2D));
             }
 
             if (ga.GameIcon == null)
             {
-                ga.GameIcon = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/GameAnalytics/Gizmos/GameAnalytics/Images/game.png", typeof(Texture2D));
+                ga.GameIcon = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetsPrependPath + "/Gizmos/GameAnalytics/Images/game.png", typeof(Texture2D));
             }
 
             if (ga.HomeIcon == null)
             {
-                ga.HomeIcon = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/GameAnalytics/Gizmos/GameAnalytics/Images/home.png", typeof(Texture2D));
+                ga.HomeIcon = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetsPrependPath + "/Gizmos/GameAnalytics/Images/home.png", typeof(Texture2D));
             }
 
             if (ga.InfoIcon == null)
             {
-                ga.InfoIcon = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/GameAnalytics/Gizmos/GameAnalytics/Images/info.png", typeof(Texture2D));
+                ga.InfoIcon = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetsPrependPath + "/Gizmos/GameAnalytics/Images/info.png", typeof(Texture2D));
             }
 
             if (ga.InstrumentIcon == null)
             {
-                ga.InstrumentIcon = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/GameAnalytics/Gizmos/GameAnalytics/Images/instrument.png", typeof(Texture2D));
+                ga.InstrumentIcon = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetsPrependPath + "/Gizmos/GameAnalytics/Images/instrument.png", typeof(Texture2D));
             }
 
             if (ga.QuestionIcon == null)
             {
-                ga.QuestionIcon = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/GameAnalytics/Gizmos/GameAnalytics/Images/question.png", typeof(Texture2D));
+                ga.QuestionIcon = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetsPrependPath + "/Gizmos/GameAnalytics/Images/question.png", typeof(Texture2D));
             }
 
             if (ga.UserIcon == null)
             {
-                ga.UserIcon = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/GameAnalytics/Gizmos/GameAnalytics/Images/user.png", typeof(Texture2D));
+                ga.UserIcon = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetsPrependPath + "/Gizmos/GameAnalytics/Images/user.png", typeof(Texture2D));
             }
 
             if (_gameSetupIcon == null)
@@ -181,7 +185,7 @@ namespace GameAnalyticsSDK.Editor
 
             if (ga.Logo == null)
             {
-                ga.Logo = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/GameAnalytics/Gizmos/GameAnalytics/gaLogo.png", typeof(Texture2D));
+                ga.Logo = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetsPrependPath + "/Gizmos/GameAnalytics/gaLogo.png", typeof(Texture2D));
             }
         }
 
@@ -195,8 +199,8 @@ namespace GameAnalyticsSDK.Editor
             if (ga.SignupButton == null)
             {
                 GUIStyle signupButton = new GUIStyle(GUI.skin.button);
-                signupButton.normal.background = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/GameAnalytics/Gizmos/GameAnalytics/Images/default.png", typeof(Texture2D));
-                signupButton.active.background = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/GameAnalytics/Gizmos/GameAnalytics/Images/active.png", typeof(Texture2D));
+                signupButton.normal.background = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetsPrependPath + "/Gizmos/GameAnalytics/Images/default.png", typeof(Texture2D));
+                signupButton.active.background = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetsPrependPath + "/Gizmos/GameAnalytics/Images/active.png", typeof(Texture2D));
                 signupButton.normal.textColor = Color.white;
                 signupButton.active.textColor = Color.white;
                 signupButton.fontSize = 14;
@@ -893,8 +897,6 @@ namespace GameAnalyticsSDK.Editor
 
                                     EditorGUILayout.Space();
                                     break;
-                                default:
-                                    break;
                             }
 
                             if (ga.SelectedPlatformGameID[i] >= 0)
@@ -1418,6 +1420,14 @@ namespace GameAnalyticsSDK.Editor
 
                     GUILayout.BeginHorizontal();
                     GUILayout.Label("", GUILayout.Width(-18));
+                    ga.NativeErrorReporting = EditorGUILayout.Toggle("", ga.NativeErrorReporting, GUILayout.Width(35));
+                    GUILayout.Label(_gaNativeErrorReporting);
+                    GUILayout.EndHorizontal();
+
+                    EditorGUILayout.Space();
+
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Label("", GUILayout.Width(-18));
                     ga.SubmitFpsAverage = EditorGUILayout.Toggle("", ga.SubmitFpsAverage, GUILayout.Width(35));
                     GUILayout.Label(_gaFpsAverage);
                     GUILayout.EndHorizontal();
@@ -1569,7 +1579,7 @@ namespace GameAnalyticsSDK.Editor
 
             byte[] data = System.Text.Encoding.UTF8.GetBytes(GA_MiniJSON.Serialize(jsonTable));
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
             UnityWebRequest www = new UnityWebRequest(_gaUrl + "user", UnityWebRequest.kHttpVerbPOST);
             UploadHandlerRaw uH = new UploadHandlerRaw(data)
             {
@@ -1589,14 +1599,19 @@ namespace GameAnalyticsSDK.Editor
             GA_ContinuationManager.StartCoroutine(SignupUserFrontend(www, ga, signup), () => www.isDone);
         }
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
         private static IEnumerator SignupUserFrontend(UnityWebRequest www, GameAnalyticsSDK.Setup.Settings ga, GA_SignUp signup)
 #else
         private static IEnumerator<WWW> SignupUserFrontend(WWW www, Settings ga, GA_SignUp signup)
 #endif
         {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
+
+#if UNITY_2017_2_OR_NEWER
             yield return www.SendWebRequest();
+#else
+            yield return www.Send();
+#endif
             while (!www.isDone)
                 yield return null;
 #else
@@ -1607,7 +1622,7 @@ namespace GameAnalyticsSDK.Editor
             {
                 IDictionary<string, object> returnParam = null;
                 string error = "";
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                 string text = www.downloadHandler.text;
 #else
                 string text = www.text;
@@ -1629,7 +1644,9 @@ namespace GameAnalyticsSDK.Editor
                     }
                 }
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2020_1_OR_NEWER
+                if (!(www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError))
+#elif UNITY_2017_1_OR_NEWER
                 if (!(www.isNetworkError || www.isHttpError))
 #else
                 if (string.IsNullOrEmpty(www.error))
@@ -1690,7 +1707,7 @@ namespace GameAnalyticsSDK.Editor
 
             byte[] data = System.Text.Encoding.UTF8.GetBytes(GA_MiniJSON.Serialize(jsonTable));
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
             UnityWebRequest www = new UnityWebRequest(_gaUrl + "token", UnityWebRequest.kHttpVerbPOST);
             UploadHandlerRaw uH = new UploadHandlerRaw(data)
             {
@@ -1710,14 +1727,18 @@ namespace GameAnalyticsSDK.Editor
             GA_ContinuationManager.StartCoroutine(LoginUserFrontend(www, ga), () => www.isDone);
         }
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
         private static IEnumerator LoginUserFrontend(UnityWebRequest www, GameAnalyticsSDK.Setup.Settings ga)
 #else
         private static IEnumerator<WWW> LoginUserFrontend(WWW www, Settings ga)
 #endif
         {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
+#if UNITY_2017_2_OR_NEWER
             yield return www.SendWebRequest();
+#else
+            yield return www.Send();
+#endif
             while (!www.isDone)
                 yield return null;
 #else
@@ -1728,7 +1749,7 @@ namespace GameAnalyticsSDK.Editor
             {
                 string error = "";
                 IDictionary<string, object> returnParam = null;
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                 string text = www.downloadHandler.text;
 #else
                 string text = www.text;
@@ -1751,7 +1772,9 @@ namespace GameAnalyticsSDK.Editor
                     }
                 }
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2020_1_OR_NEWER
+                if (!(www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError))
+#elif UNITY_2017_1_OR_NEWER
                 if (!(www.isNetworkError || www.isHttpError))
 #else
                 if (string.IsNullOrEmpty(www.error))
@@ -1796,7 +1819,7 @@ namespace GameAnalyticsSDK.Editor
 
         private static void GetUserData(GameAnalyticsSDK.Setup.Settings ga)
         {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
             UnityWebRequest www = UnityWebRequest.Get(_gaUrl + "user");
             Dictionary<string, string> headers = GA_EditorUtilities.WWWHeadersWithAuthorization(ga.TokenGA);
             foreach (KeyValuePair<string, string> entry in headers)
@@ -1809,14 +1832,18 @@ namespace GameAnalyticsSDK.Editor
             GA_ContinuationManager.StartCoroutine(GetUserDataFrontend(www, ga), () => www.isDone);
         }
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
         private static IEnumerator GetUserDataFrontend(UnityWebRequest www, GameAnalyticsSDK.Setup.Settings ga)
 #else
         private static IEnumerator<WWW> GetUserDataFrontend(WWW www, Settings ga)
 #endif
         {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
+#if UNITY_2017_2_OR_NEWER
             yield return www.SendWebRequest();
+#else
+            yield return www.Send();
+#endif
             while (!www.isDone)
                 yield return null;
 #else
@@ -1827,7 +1854,7 @@ namespace GameAnalyticsSDK.Editor
             {
                 IDictionary<string, object> returnParam = null;
                 string error = "";
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                 string text = www.downloadHandler.text;
 #else
                 string text = www.text;
@@ -1849,7 +1876,9 @@ namespace GameAnalyticsSDK.Editor
                     }
                 }
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2020_1_OR_NEWER
+                if (!(www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError))
+#elif UNITY_2017_1_OR_NEWER
                 if (!(www.isNetworkError || www.isHttpError))
 #else
                 if (string.IsNullOrEmpty(www.error))
@@ -1968,7 +1997,7 @@ namespace GameAnalyticsSDK.Editor
             byte[] data = System.Text.Encoding.UTF8.GetBytes(GA_MiniJSON.Serialize(jsonTable));
 
             string url = _gaUrl + "studios/" + ga.Organizations[organizationIndex].Studios[studioIndex].ID + "/games";
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
             UnityWebRequest www = new UnityWebRequest(url, UnityWebRequest.kHttpVerbPOST);
             UploadHandlerRaw uH = new UploadHandlerRaw(data)
             {
@@ -1987,14 +2016,18 @@ namespace GameAnalyticsSDK.Editor
             GA_ContinuationManager.StartCoroutine(CreateGameFrontend(www, ga, signup, platform, appFiguresGame), () => www.isDone);
         }
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
         private static IEnumerator CreateGameFrontend(UnityWebRequest www, GameAnalyticsSDK.Setup.Settings ga, GA_SignUp signup, RuntimePlatform platform, AppFiguresGame appFiguresGame)
 #else
         private static IEnumerator<WWW> CreateGameFrontend(WWW www, Settings ga, GA_SignUp signup, RuntimePlatform platform, AppFiguresGame appFiguresGame)
 #endif
         {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
+#if UNITY_2017_2_OR_NEWER
             yield return www.SendWebRequest();
+#else
+            yield return www.Send();
+#endif
             while (!www.isDone)
                 yield return null;
 #else
@@ -2005,7 +2038,7 @@ namespace GameAnalyticsSDK.Editor
             {
                 IDictionary<string, object> returnParam = null;
                 string error = "";
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                 string text = www.downloadHandler.text;
 #else
                 string text = www.text;
@@ -2027,7 +2060,9 @@ namespace GameAnalyticsSDK.Editor
                     }
                 }
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2020_1_OR_NEWER
+                if (!(www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError))
+#elif UNITY_2017_1_OR_NEWER
                 if (!(www.isNetworkError || www.isHttpError))
 #else
                 if (string.IsNullOrEmpty(www.error))
@@ -2070,7 +2105,7 @@ namespace GameAnalyticsSDK.Editor
 
         public static void GetAppFigures(GameAnalyticsSDK.Setup.Settings ga, GA_SignUp signup)
         {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
             UnityWebRequest www = UnityWebRequest.Get(_gaUrl + "apps/search?query=" + UnityWebRequest.EscapeURL(ga.GameName));
             Dictionary<string, string> headers = GA_EditorUtilities.WWWHeadersWithAuthorization(ga.TokenGA);
             foreach (KeyValuePair<string, string> pair in headers)
@@ -2085,7 +2120,7 @@ namespace GameAnalyticsSDK.Editor
 
             if (ga.AmazonIcon == null)
             {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                 UnityWebRequest wwwAmazon = UnityWebRequestTexture.GetTexture("http://public.gameanalytics.com/resources/images/sdk_doc/appstore_icons/amazon.png");
                 GA_ContinuationManager.StartCoroutine(signup.GetAppStoreIconTexture(wwwAmazon, "amazon_appstore", signup), () => wwwAmazon.isDone);
 #else
@@ -2096,7 +2131,7 @@ namespace GameAnalyticsSDK.Editor
 
             if (ga.GooglePlayIcon == null)
             {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                 UnityWebRequest wwwGoogle = UnityWebRequestTexture.GetTexture("http://public.gameanalytics.com/resources/images/sdk_doc/appstore_icons/google_play.png");
                 GA_ContinuationManager.StartCoroutine(signup.GetAppStoreIconTexture(wwwGoogle, "google_play", signup), () => wwwGoogle.isDone);
 #else
@@ -2107,7 +2142,7 @@ namespace GameAnalyticsSDK.Editor
 
             if (ga.iosIcon == null)
             {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                 UnityWebRequest wwwIos = UnityWebRequestTexture.GetTexture("http://public.gameanalytics.com/resources/images/sdk_doc/appstore_icons/ios.png");
                 GA_ContinuationManager.StartCoroutine(signup.GetAppStoreIconTexture(wwwIos, "apple:ios", signup), () => wwwIos.isDone);
 #else
@@ -2118,7 +2153,7 @@ namespace GameAnalyticsSDK.Editor
 
             if (ga.macIcon == null)
             {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                 UnityWebRequest wwwMac = UnityWebRequestTexture.GetTexture("http://public.gameanalytics.com/resources/images/sdk_doc/appstore_icons/mac.png");
                 GA_ContinuationManager.StartCoroutine(signup.GetAppStoreIconTexture(wwwMac, "apple:mac", signup), () => wwwMac.isDone);
 #else
@@ -2129,7 +2164,7 @@ namespace GameAnalyticsSDK.Editor
 
             if (ga.windowsPhoneIcon == null)
             {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                 UnityWebRequest wwwWindowsPhone = UnityWebRequestTexture.GetTexture("http://public.gameanalytics.com/resources/images/sdk_doc/appstore_icons/windows_phone.png");
                 GA_ContinuationManager.StartCoroutine(signup.GetAppStoreIconTexture(wwwWindowsPhone, "windows_phone", signup), () => wwwWindowsPhone.isDone);
 #else
@@ -2139,14 +2174,18 @@ namespace GameAnalyticsSDK.Editor
             }
         }
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
         private static IEnumerator GetAppFiguresFrontend(UnityWebRequest www, GameAnalyticsSDK.Setup.Settings ga, GA_SignUp signup, string gameName)
 #else
         private static IEnumerator<WWW> GetAppFiguresFrontend(WWW www, Settings ga, GA_SignUp signup, string gameName)
 #endif
         {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
+#if UNITY_2017_2_OR_NEWER
             yield return www.SendWebRequest();
+#else
+            yield return www.Send();
+#endif
             while (!www.isDone)
                 yield return null;
 #else
@@ -2158,7 +2197,7 @@ namespace GameAnalyticsSDK.Editor
                 IDictionary<string, object> returnParam = null;
                 string error = "";
                 string text;
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                 text = www.downloadHandler.text;
 #else
                 text = www.text;
@@ -2180,7 +2219,9 @@ namespace GameAnalyticsSDK.Editor
                     }
                 }
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2020_1_OR_NEWER
+                if (!(www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError))
+#elif UNITY_2017_1_OR_NEWER
                 if (!(www.isNetworkError || www.isHttpError))
 #else
                 if (string.IsNullOrEmpty(www.error))
@@ -2218,7 +2259,7 @@ namespace GameAnalyticsSDK.Editor
                 else
                 {
                     // expired tokens / not signed in
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                     if (www.responseCode == 401)
 #else
                     if (www.responseHeaders["status"] != null && www.responseHeaders["status"].Contains("401"))
@@ -2330,7 +2371,7 @@ namespace GameAnalyticsSDK.Editor
             }
 
             GameAnalyticsSDK.Setup.Settings.CheckingForUpdates = true;
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
             UnityWebRequest www = UnityWebRequest.Get("https://s3.amazonaws.com/public.gameanalytics.com/sdk_status/current.json");
 #else
             WWW www = new WWW("https://s3.amazonaws.com/public.gameanalytics.com/sdk_status/current.json");
@@ -2340,7 +2381,7 @@ namespace GameAnalyticsSDK.Editor
 
         private static void GetChangeLogsAndShowUpdateWindow(string newVersion)
         {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
             UnityWebRequest www = UnityWebRequest.Get("https://s3.amazonaws.com/public.gameanalytics.com/sdk_status/change_logs.json");
 #else
             WWW www = new WWW("https://s3.amazonaws.com/public.gameanalytics.com/sdk_status/change_logs.json");
@@ -2348,14 +2389,18 @@ namespace GameAnalyticsSDK.Editor
             GA_ContinuationManager.StartCoroutine(GetChangeLogsAndShowUpdateWindowCoroutine(www, newVersion), () => www.isDone);
         }
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
         private static IEnumerator CheckForUpdatesCoroutine(UnityWebRequest www)
 #else
         private static IEnumerator CheckForUpdatesCoroutine(WWW www)
 #endif
         {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
+#if UNITY_2017_2_OR_NEWER
             yield return www.SendWebRequest();
+#else
+            yield return www.Send();
+#endif
             while (!www.isDone)
                 yield return null;
 #else
@@ -2364,14 +2409,16 @@ namespace GameAnalyticsSDK.Editor
 
             try
             {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2020_1_OR_NEWER
+                if (!(www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError))
+#elif UNITY_2017_1_OR_NEWER
                 if (!(www.isNetworkError || www.isHttpError))
 #else
                 if (string.IsNullOrEmpty(www.error))
 #endif
                 {
                     string text;
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                     text = www.downloadHandler.text;
 #else
                     text = www.text;
@@ -2398,14 +2445,18 @@ namespace GameAnalyticsSDK.Editor
             }
         }
 
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
         private static IEnumerator GetChangeLogsAndShowUpdateWindowCoroutine(UnityWebRequest www, string newVersion)
 #else
         private static IEnumerator<WWW> GetChangeLogsAndShowUpdateWindowCoroutine(WWW www, string newVersion)
 #endif
         {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
+#if UNITY_2017_2_OR_NEWER
             yield return www.SendWebRequest();
+#else
+            yield return www.Send();
+#endif
             while (!www.isDone)
                 yield return null;
 #else
@@ -2414,14 +2465,16 @@ namespace GameAnalyticsSDK.Editor
 
             try
             {
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2020_1_OR_NEWER
+                if (!(www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError))
+#elif UNITY_2017_1_OR_NEWER
                 if (!(www.isNetworkError || www.isHttpError))
 #else
                 if (string.IsNullOrEmpty(www.error))
 #endif
                 {
                     string text;
-#if UNITY_2018_3_OR_NEWER
+#if UNITY_2017_1_OR_NEWER
                     text = www.downloadHandler.text;
 #else
                     text = www.text;

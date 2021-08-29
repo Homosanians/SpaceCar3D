@@ -110,6 +110,7 @@ public class Vehicle : MonoBehaviour
 
     private void Start()
     {
+
         OnReady.AddListener(() =>
         {
             State = VehicleMovementStates.Grounded;
@@ -212,6 +213,7 @@ public class Vehicle : MonoBehaviour
         if (State != VehicleMovementStates.Waiting)
         {
             FuelAmount -= VehicleDataProvider.Data.FuelConsumptionRate * Time.deltaTime / 2;
+            
         }
 
         // Input

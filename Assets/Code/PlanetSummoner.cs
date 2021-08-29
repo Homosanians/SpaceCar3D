@@ -166,7 +166,7 @@ public sealed class PlanetSummoner : MonoBehaviour
 
         float randomDiameter = Random.Range(minPlanetSize, maxPlanetSize);
 
-        GameObject modifiedPrefab = prefabVariants[Random.Range(0, prefabVariants.Length - 1)];
+        GameObject modifiedPrefab = prefabVariants[Random.Range(0, prefabVariants.Length)];
         modifiedPrefab.transform.localScale = new Vector3(randomDiameter, randomDiameter, randomDiameter);
 
         GameObject instantialedObject = Instantiate(modifiedPrefab, finalPosition, Quaternion.identity);

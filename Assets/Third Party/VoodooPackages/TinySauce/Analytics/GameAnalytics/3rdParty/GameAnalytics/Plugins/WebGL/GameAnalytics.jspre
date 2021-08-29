@@ -354,6 +354,34 @@ var gameanalytics;
         EGAResourceFlowType[EGAResourceFlowType["Source"] = 1] = "Source";
         EGAResourceFlowType[EGAResourceFlowType["Sink"] = 2] = "Sink";
     })(EGAResourceFlowType = gameanalytics.EGAResourceFlowType || (gameanalytics.EGAResourceFlowType = {}));
+    var EGAAdAction;
+    (function (EGAAdAction) {
+        EGAAdAction[EGAAdAction["Undefined"] = 0] = "Undefined";
+        EGAAdAction[EGAAdAction["Clicked"] = 1] = "Clicked";
+        EGAAdAction[EGAAdAction["Show"] = 2] = "Show";
+        EGAAdAction[EGAAdAction["FailedShow"] = 3] = "FailedShow";
+        EGAAdAction[EGAAdAction["RewardReceived"] = 4] = "RewardReceived";
+    })(EGAAdAction = gameanalytics.EGAAdAction || (gameanalytics.EGAAdAction = {}));
+    var EGAAdError;
+    (function (EGAAdError) {
+        EGAAdError[EGAAdError["Undefined"] = 0] = "Undefined";
+        EGAAdError[EGAAdError["Unknown"] = 1] = "Unknown";
+        EGAAdError[EGAAdError["Offline"] = 2] = "Offline";
+        EGAAdError[EGAAdError["NoFill"] = 3] = "NoFill";
+        EGAAdError[EGAAdError["InternalError"] = 4] = "InternalError";
+        EGAAdError[EGAAdError["InvalidRequest"] = 5] = "InvalidRequest";
+        EGAAdError[EGAAdError["UnableToPrecache"] = 6] = "UnableToPrecache";
+    })(EGAAdError = gameanalytics.EGAAdError || (gameanalytics.EGAAdError = {}));
+    var EGAAdType;
+    (function (EGAAdType) {
+        EGAAdType[EGAAdType["Undefined"] = 0] = "Undefined";
+        EGAAdType[EGAAdType["Video"] = 1] = "Video";
+        EGAAdType[EGAAdType["RewardedVideo"] = 2] = "RewardedVideo";
+        EGAAdType[EGAAdType["Playable"] = 3] = "Playable";
+        EGAAdType[EGAAdType["Interstitial"] = 4] = "Interstitial";
+        EGAAdType[EGAAdType["OfferWall"] = 5] = "OfferWall";
+        EGAAdType[EGAAdType["Banner"] = 6] = "Banner";
+    })(EGAAdType = gameanalytics.EGAAdType || (gameanalytics.EGAAdType = {}));
     var http;
     (function (http) {
         var EGAHTTPApiResponse;
@@ -394,6 +422,7 @@ var gameanalytics;
             EGASdkErrorArea[EGASdkErrorArea["EventsHttp"] = 10] = "EventsHttp";
             EGASdkErrorArea[EGASdkErrorArea["ProcessEvents"] = 11] = "ProcessEvents";
             EGASdkErrorArea[EGASdkErrorArea["AddEventsToStore"] = 12] = "AddEventsToStore";
+            EGASdkErrorArea[EGASdkErrorArea["AdEvent"] = 20] = "AdEvent";
         })(EGASdkErrorArea = events.EGASdkErrorArea || (events.EGASdkErrorArea = {}));
         var EGASdkErrorAction;
         (function (EGASdkErrorAction) {
@@ -419,6 +448,9 @@ var gameanalytics;
             EGASdkErrorAction[EGASdkErrorAction["JsonError"] = 25] = "JsonError";
             EGASdkErrorAction[EGASdkErrorAction["FailHttpJsonDecode"] = 29] = "FailHttpJsonDecode";
             EGASdkErrorAction[EGASdkErrorAction["FailHttpJsonEncode"] = 30] = "FailHttpJsonEncode";
+            EGASdkErrorAction[EGASdkErrorAction["InvalidAdAction"] = 31] = "InvalidAdAction";
+            EGASdkErrorAction[EGASdkErrorAction["InvalidAdType"] = 32] = "InvalidAdType";
+            EGASdkErrorAction[EGASdkErrorAction["InvalidString"] = 33] = "InvalidString";
         })(EGASdkErrorAction = events.EGASdkErrorAction || (events.EGASdkErrorAction = {}));
         var EGASdkErrorParameter;
         (function (EGASdkErrorParameter) {
@@ -437,6 +469,10 @@ var gameanalytics;
             EGASdkErrorParameter[EGASdkErrorParameter["ProgressionStatus"] = 12] = "ProgressionStatus";
             EGASdkErrorParameter[EGASdkErrorParameter["Severity"] = 13] = "Severity";
             EGASdkErrorParameter[EGASdkErrorParameter["Message"] = 14] = "Message";
+            EGASdkErrorParameter[EGASdkErrorParameter["AdAction"] = 15] = "AdAction";
+            EGASdkErrorParameter[EGASdkErrorParameter["AdType"] = 16] = "AdType";
+            EGASdkErrorParameter[EGASdkErrorParameter["AdSdkName"] = 17] = "AdSdkName";
+            EGASdkErrorParameter[EGASdkErrorParameter["AdPlacement"] = 18] = "AdPlacement";
         })(EGASdkErrorParameter = events.EGASdkErrorParameter || (events.EGASdkErrorParameter = {}));
     })(events = gameanalytics.events || (gameanalytics.events = {}));
 })(gameanalytics || (gameanalytics = {}));
@@ -791,7 +827,7 @@ var gameanalytics;
             };
             GAValidator.validateDesignEvent = function (eventId) {
                 if (!GAValidator.validateEventIdLength(eventId)) {
-                    GALogger.w("Validation fail - design event - eventId: Cannot be (null) or empty. Only 5 event parts allowed seperated by :. Each part need to be 32 characters or less. String: " + eventId);
+                    GALogger.w("Validation fail - design event - eventId: Cannot be (null) or empty. Only 5 event parts allowed seperated by :. Each part need to be 64 characters or less. String: " + eventId);
                     return new ValidationResult(EGASdkErrorCategory.EventValidation, EGASdkErrorArea.DesignEvent, EGASdkErrorAction.InvalidEventIdLength, EGASdkErrorParameter.EventId, eventId);
                 }
                 if (!GAValidator.validateEventIdCharacters(eventId)) {
@@ -808,6 +844,25 @@ var gameanalytics;
                 if (!GAValidator.validateLongString(message, true)) {
                     GALogger.w("Validation fail - error event - message: Message cannot be above 8192 characters.");
                     return new ValidationResult(EGASdkErrorCategory.EventValidation, EGASdkErrorArea.ErrorEvent, EGASdkErrorAction.InvalidLongString, EGASdkErrorParameter.Message, message);
+                }
+                return null;
+            };
+            GAValidator.validateAdEvent = function (adAction, adType, adSdkName, adPlacement) {
+                if (adAction == gameanalytics.EGAAdAction.Undefined) {
+                    GALogger.w("Validation fail - error event - severity: Severity was unsupported value.");
+                    return new ValidationResult(EGASdkErrorCategory.EventValidation, EGASdkErrorArea.AdEvent, EGASdkErrorAction.InvalidAdAction, EGASdkErrorParameter.AdAction, "");
+                }
+                if (adType == gameanalytics.EGAAdType.Undefined) {
+                    GALogger.w("Validation fail - ad event - adType: Ad type was unsupported value.");
+                    return new ValidationResult(EGASdkErrorCategory.EventValidation, EGASdkErrorArea.AdEvent, EGASdkErrorAction.InvalidAdType, EGASdkErrorParameter.AdType, "");
+                }
+                if (!GAValidator.validateShortString(adSdkName, false)) {
+                    GALogger.w("Validation fail - ad event - message: Ad SDK name cannot be above 32 characters.");
+                    return new ValidationResult(EGASdkErrorCategory.EventValidation, EGASdkErrorArea.AdEvent, EGASdkErrorAction.InvalidShortString, EGASdkErrorParameter.AdSdkName, adSdkName);
+                }
+                if (!GAValidator.validateString(adPlacement, false)) {
+                    GALogger.w("Validation fail - ad event - message: Ad placement cannot be above 64 characters.");
+                    return new ValidationResult(EGASdkErrorCategory.EventValidation, EGASdkErrorArea.AdEvent, EGASdkErrorAction.InvalidString, EGASdkErrorParameter.AdPlacement, adPlacement);
                 }
                 return null;
             };
@@ -945,13 +1000,13 @@ var gameanalytics;
                 return true;
             };
             GAValidator.validateSdkWrapperVersion = function (wrapperVersion) {
-                if (!GAUtilities.stringMatch(wrapperVersion, /^(unity|unreal|gamemaker|cocos2d|construct|defold) [0-9]{0,5}(\.[0-9]{0,5}){0,2}$/)) {
+                if (!GAUtilities.stringMatch(wrapperVersion, /^(unity|unreal|gamemaker|cocos2d|construct|defold|godot) [0-9]{0,5}(\.[0-9]{0,5}){0,2}$/)) {
                     return false;
                 }
                 return true;
             };
             GAValidator.validateEngineVersion = function (engineVersion) {
-                if (!engineVersion || !GAUtilities.stringMatch(engineVersion, /^(unity|unreal|gamemaker|cocos2d|construct|defold) [0-9]{0,5}(\.[0-9]{0,5}){0,2}$/)) {
+                if (!engineVersion || !GAUtilities.stringMatch(engineVersion, /^(unity|unreal|gamemaker|cocos2d|construct|defold|godot) [0-9]{0,5}(\.[0-9]{0,5}){0,2}$/)) {
                     return false;
                 }
                 return true;
@@ -1078,7 +1133,7 @@ var gameanalytics;
                 return true;
             };
             GAValidator.validateClientTs = function (clientTs) {
-                if (clientTs < (-4294967295 + 1) || clientTs > (4294967295 - 1)) {
+                if (clientTs < (0) || clientTs > (99999999999)) {
                     return false;
                 }
                 return true;
@@ -1219,7 +1274,7 @@ var gameanalytics;
                 }
                 return result;
             };
-            GADevice.sdkWrapperVersion = "javascript 4.0.10";
+            GADevice.sdkWrapperVersion = "javascript 4.2.1";
             GADevice.osVersionPair = GADevice.matchItem([
                 navigator.platform,
                 navigator.userAgent,
@@ -1235,7 +1290,8 @@ var gameanalytics;
                 new NameValueVersion("blackBerry", "BlackBerry", "/"),
                 new NameValueVersion("mac_osx", "Mac", "OS X"),
                 new NameValueVersion("tizen", "Tizen", "Tizen"),
-                new NameValueVersion("linux", "Linux", "rv")
+                new NameValueVersion("linux", "Linux", "rv"),
+                new NameValueVersion("kai_os", "KAIOS", "KAIOS")
             ]);
             GADevice.buildPlatform = GADevice.runtimePlatformToString();
             GADevice.deviceModel = GADevice.getDeviceModel();
@@ -1685,10 +1741,12 @@ var gameanalytics;
                 this.availableResourceItemTypes = [];
                 this.configurations = {};
                 this.remoteConfigsListeners = [];
+                this.beforeUnloadListeners = [];
                 this.sdkConfigDefault = {};
                 this.sdkConfig = {};
                 this.progressionTries = {};
                 this._isEventSubmissionEnabled = true;
+                this.isUnloading = false;
             }
             GAState.setUserId = function (userId) {
                 GAState.instance.userId = userId;
@@ -2164,6 +2222,25 @@ var gameanalytics;
                 for (var i = 0; i < listeners.length; ++i) {
                     if (listeners[i]) {
                         listeners[i].onRemoteConfigsUpdated();
+                    }
+                }
+            };
+            GAState.addOnBeforeUnloadListener = function (listener) {
+                if (GAState.instance.beforeUnloadListeners.indexOf(listener) < 0) {
+                    GAState.instance.beforeUnloadListeners.push(listener);
+                }
+            };
+            GAState.removeOnBeforeUnloadListener = function (listener) {
+                var index = GAState.instance.beforeUnloadListeners.indexOf(listener);
+                if (index > -1) {
+                    GAState.instance.beforeUnloadListeners.splice(index, 1);
+                }
+            };
+            GAState.notifyBeforeUnloadListeners = function () {
+                var listeners = GAState.instance.beforeUnloadListeners;
+                for (var i = 0; i < listeners.length; ++i) {
+                    if (listeners[i]) {
+                        listeners[i].onBeforeUnload();
                     }
                 }
             };
@@ -2762,6 +2839,37 @@ var gameanalytics;
                 GALogger.i("Add ERROR event: {severity:" + severityString + ", message:" + message + "}");
                 GAEvents.addEventToStore(eventData);
             };
+            GAEvents.addAdEvent = function (adAction, adType, adSdkName, adPlacement, noAdReason, duration, sendDuration, fields) {
+                if (!GAState.isEventSubmissionEnabled()) {
+                    return;
+                }
+                var adActionString = GAEvents.adActionToString(adAction);
+                var adTypeString = GAEvents.adTypeToString(adType);
+                var noAdReasonString = GAEvents.adErrorToString(noAdReason);
+                var validationResult = GAValidator.validateAdEvent(adAction, adType, adSdkName, adPlacement);
+                if (validationResult != null) {
+                    GAHTTPApi.instance.sendSdkErrorEvent(validationResult.category, validationResult.area, validationResult.action, validationResult.parameter, validationResult.reason, GAState.getGameKey(), GAState.getGameSecret());
+                    return;
+                }
+                var eventData = {};
+                eventData["category"] = GAEvents.CategoryAds;
+                eventData["ad_sdk_name"] = adSdkName;
+                eventData["ad_placement"] = adPlacement;
+                eventData["ad_type"] = adTypeString;
+                eventData["ad_action"] = adActionString;
+                if (adAction == gameanalytics.EGAAdAction.FailedShow && noAdReasonString.length > 0) {
+                    eventData["ad_fail_show_reason"] = noAdReasonString;
+                }
+                if (sendDuration && (adType == gameanalytics.EGAAdType.RewardedVideo || adType == gameanalytics.EGAAdType.Video)) {
+                    eventData["ad_duration"] = duration;
+                }
+                GAEvents.addDimensionsToEvent(eventData);
+                GAEvents.addFieldsToEvent(eventData, GAState.validateAndCleanCustomFields(fields));
+                GALogger.i("Add AD event: {ad_sdk_name:" + adSdkName + ", ad_placement:" + adPlacement + ", ad_type:" + adTypeString + ", ad_action:" + adActionString +
+                    ((adAction == gameanalytics.EGAAdAction.FailedShow && noAdReasonString.length > 0) ? (", ad_fail_show_reason:" + noAdReasonString) : "") +
+                    ((sendDuration && (adType == gameanalytics.EGAAdType.RewardedVideo || adType == gameanalytics.EGAAdType.Video)) ? (", ad_duration:" + duration) : "") + "}");
+                GAEvents.addEventToStore(eventData);
+            };
             GAEvents.processEvents = function (category, performCleanUp) {
                 if (!GAState.isEventSubmissionEnabled()) {
                     return;
@@ -2811,6 +2919,10 @@ var gameanalytics;
                         var ev = events[i];
                         var eventDict = JSON.parse(GAUtilities.decode64(ev["event"]));
                         if (eventDict.length != 0) {
+                            var clientTs = eventDict["client_ts"];
+                            if (clientTs && !GAValidator.validateClientTs(clientTs)) {
+                                delete eventDict["client_ts"];
+                            }
                             payloadArray.push(eventDict);
                         }
                     }
@@ -3011,6 +3123,69 @@ var gameanalytics;
                     return "";
                 }
             };
+            GAEvents.adActionToString = function (value) {
+                if (value == gameanalytics.EGAAdAction.Clicked || value == gameanalytics.EGAAdAction[gameanalytics.EGAAdAction.Clicked]) {
+                    return "clicked";
+                }
+                else if (value == gameanalytics.EGAAdAction.Show || value == gameanalytics.EGAAdAction[gameanalytics.EGAAdAction.Show]) {
+                    return "show";
+                }
+                else if (value == gameanalytics.EGAAdAction.FailedShow || value == gameanalytics.EGAAdAction[gameanalytics.EGAAdAction.FailedShow]) {
+                    return "failed_show";
+                }
+                else if (value == gameanalytics.EGAAdAction.RewardReceived || value == gameanalytics.EGAAdAction[gameanalytics.EGAAdAction.RewardReceived]) {
+                    return "reward_received";
+                }
+                else {
+                    return "";
+                }
+            };
+            GAEvents.adErrorToString = function (value) {
+                if (value == gameanalytics.EGAAdError.Unknown || value == gameanalytics.EGAAdError[gameanalytics.EGAAdError.Unknown]) {
+                    return "unknown";
+                }
+                else if (value == gameanalytics.EGAAdError.Offline || value == gameanalytics.EGAAdError[gameanalytics.EGAAdError.Offline]) {
+                    return "offline";
+                }
+                else if (value == gameanalytics.EGAAdError.NoFill || value == gameanalytics.EGAAdError[gameanalytics.EGAAdError.NoFill]) {
+                    return "no_fill";
+                }
+                else if (value == gameanalytics.EGAAdError.InternalError || value == gameanalytics.EGAAdError[gameanalytics.EGAAdError.InternalError]) {
+                    return "internal_error";
+                }
+                else if (value == gameanalytics.EGAAdError.InvalidRequest || value == gameanalytics.EGAAdError[gameanalytics.EGAAdError.InvalidRequest]) {
+                    return "invalid_request";
+                }
+                else if (value == gameanalytics.EGAAdError.UnableToPrecache || value == gameanalytics.EGAAdError[gameanalytics.EGAAdError.UnableToPrecache]) {
+                    return "unable_to_precache";
+                }
+                else {
+                    return "";
+                }
+            };
+            GAEvents.adTypeToString = function (value) {
+                if (value == gameanalytics.EGAAdType.Video || value == gameanalytics.EGAAdType[gameanalytics.EGAAdType.Video]) {
+                    return "video";
+                }
+                else if (value == gameanalytics.EGAAdType.RewardedVideo || value == gameanalytics.EGAAdError[gameanalytics.EGAAdType.RewardedVideo]) {
+                    return "rewarded_video";
+                }
+                else if (value == gameanalytics.EGAAdType.Playable || value == gameanalytics.EGAAdError[gameanalytics.EGAAdType.Playable]) {
+                    return "playable";
+                }
+                else if (value == gameanalytics.EGAAdType.Interstitial || value == gameanalytics.EGAAdError[gameanalytics.EGAAdType.Interstitial]) {
+                    return "interstitial";
+                }
+                else if (value == gameanalytics.EGAAdType.OfferWall || value == gameanalytics.EGAAdError[gameanalytics.EGAAdType.OfferWall]) {
+                    return "offer_wall";
+                }
+                else if (value == gameanalytics.EGAAdType.Banner || value == gameanalytics.EGAAdError[gameanalytics.EGAAdType.Banner]) {
+                    return "banner";
+                }
+                else {
+                    return "";
+                }
+            };
             GAEvents.CategorySessionStart = "user";
             GAEvents.CategorySessionEnd = "session_end";
             GAEvents.CategoryDesign = "design";
@@ -3018,6 +3193,7 @@ var gameanalytics;
             GAEvents.CategoryProgression = "progression";
             GAEvents.CategoryResource = "resource";
             GAEvents.CategoryError = "error";
+            GAEvents.CategoryAds = "ads";
             GAEvents.MaxEventCount = 500;
             return GAEvents;
         }());
@@ -3189,6 +3365,21 @@ var gameanalytics;
     var GameAnalytics = (function () {
         function GameAnalytics() {
         }
+        GameAnalytics.getGlobalObject = function () {
+            if (typeof globalThis !== 'undefined') {
+                return globalThis;
+            }
+            if (typeof self !== 'undefined') {
+                return self;
+            }
+            if (typeof window !== 'undefined') {
+                return window;
+            }
+            if (typeof global !== 'undefined') {
+                return global;
+            }
+            return undefined;
+        };
         GameAnalytics.init = function () {
             GADevice.touch();
             GameAnalytics.methodMap['configureAvailableCustomDimensions01'] = GameAnalytics.configureAvailableCustomDimensions01;
@@ -3206,7 +3397,7 @@ var gameanalytics;
             GameAnalytics.methodMap['addProgressionEvent'] = GameAnalytics.addProgressionEvent;
             GameAnalytics.methodMap['addDesignEvent'] = GameAnalytics.addDesignEvent;
             GameAnalytics.methodMap['addErrorEvent'] = GameAnalytics.addErrorEvent;
-            GameAnalytics.methodMap['addErrorEvent'] = GameAnalytics.addErrorEvent;
+            GameAnalytics.methodMap['addAdEvent'] = GameAnalytics.addAdEvent;
             GameAnalytics.methodMap['setEnabledInfoLog'] = GameAnalytics.setEnabledInfoLog;
             GameAnalytics.methodMap['setEnabledVerboseLog'] = GameAnalytics.setEnabledVerboseLog;
             GameAnalytics.methodMap['setEnabledManualSessionHandling'] = GameAnalytics.setEnabledManualSessionHandling;
@@ -3224,12 +3415,21 @@ var gameanalytics;
             GameAnalytics.methodMap['getRemoteConfigsValueAsString'] = GameAnalytics.getRemoteConfigsValueAsString;
             GameAnalytics.methodMap['isRemoteConfigsReady'] = GameAnalytics.isRemoteConfigsReady;
             GameAnalytics.methodMap['getRemoteConfigsContentAsString'] = GameAnalytics.getRemoteConfigsContentAsString;
-            if (typeof window !== 'undefined' && typeof window['GameAnalytics'] !== 'undefined' && typeof window['GameAnalytics']['q'] !== 'undefined') {
-                var q = window['GameAnalytics']['q'];
+            GameAnalytics.methodMap['addOnBeforeUnloadListener'] = GameAnalytics.addOnBeforeUnloadListener;
+            GameAnalytics.methodMap['removeOnBeforeUnloadListener'] = GameAnalytics.removeOnBeforeUnloadListener;
+            if (typeof GameAnalytics.getGlobalObject() !== 'undefined' && typeof GameAnalytics.getGlobalObject()['GameAnalytics'] !== 'undefined' && typeof GameAnalytics.getGlobalObject()['GameAnalytics']['q'] !== 'undefined') {
+                var q = GameAnalytics.getGlobalObject()['GameAnalytics']['q'];
                 for (var i in q) {
                     GameAnalytics.gaCommand.apply(null, q[i]);
                 }
             }
+            window.addEventListener("beforeunload", function (e) {
+                console.log('addEventListener unload');
+                GAState.instance.isUnloading = true;
+                GAState.notifyBeforeUnloadListeners();
+                GAThreading.endSessionAndStopQueue();
+                GAState.instance.isUnloading = false;
+            });
         };
         GameAnalytics.gaCommand = function () {
             var args = [];
@@ -3379,12 +3579,20 @@ var gameanalytics;
             if (itemId === void 0) { itemId = ""; }
             if (cartType === void 0) { cartType = ""; }
             GADevice.updateConnectionType();
-            GAThreading.performTaskOnGAThread(function () {
+            if (!GAState.instance.isUnloading) {
+                GAThreading.performTaskOnGAThread(function () {
+                    if (!GameAnalytics.isSdkReady(true, true, "Could not add business event")) {
+                        return;
+                    }
+                    GAEvents.addBusinessEvent(currency, amount, itemType, itemId, cartType, {});
+                });
+            }
+            else {
                 if (!GameAnalytics.isSdkReady(true, true, "Could not add business event")) {
                     return;
                 }
                 GAEvents.addBusinessEvent(currency, amount, itemType, itemId, cartType, {});
-            });
+            }
         };
         GameAnalytics.addResourceEvent = function (flowType, currency, amount, itemType, itemId) {
             if (flowType === void 0) { flowType = gameanalytics.EGAResourceFlowType.Undefined; }
@@ -3393,12 +3601,20 @@ var gameanalytics;
             if (itemType === void 0) { itemType = ""; }
             if (itemId === void 0) { itemId = ""; }
             GADevice.updateConnectionType();
-            GAThreading.performTaskOnGAThread(function () {
+            if (!GAState.instance.isUnloading) {
+                GAThreading.performTaskOnGAThread(function () {
+                    if (!GameAnalytics.isSdkReady(true, true, "Could not add resource event")) {
+                        return;
+                    }
+                    GAEvents.addResourceEvent(flowType, currency, amount, itemType, itemId, {});
+                });
+            }
+            else {
                 if (!GameAnalytics.isSdkReady(true, true, "Could not add resource event")) {
                     return;
                 }
                 GAEvents.addResourceEvent(flowType, currency, amount, itemType, itemId, {});
-            });
+            }
         };
         GameAnalytics.addProgressionEvent = function (progressionStatus, progression01, progression02, progression03, score) {
             if (progressionStatus === void 0) { progressionStatus = gameanalytics.EGAProgressionStatus.Undefined; }
@@ -3406,34 +3622,125 @@ var gameanalytics;
             if (progression02 === void 0) { progression02 = ""; }
             if (progression03 === void 0) { progression03 = ""; }
             GADevice.updateConnectionType();
-            GAThreading.performTaskOnGAThread(function () {
+            if (!GAState.instance.isUnloading) {
+                GAThreading.performTaskOnGAThread(function () {
+                    if (!GameAnalytics.isSdkReady(true, true, "Could not add progression event")) {
+                        return;
+                    }
+                    var sendScore = typeof score === "number";
+                    GAEvents.addProgressionEvent(progressionStatus, progression01, progression02, progression03, sendScore ? score : 0, sendScore, {});
+                });
+            }
+            else {
                 if (!GameAnalytics.isSdkReady(true, true, "Could not add progression event")) {
                     return;
                 }
                 var sendScore = typeof score === "number";
                 GAEvents.addProgressionEvent(progressionStatus, progression01, progression02, progression03, sendScore ? score : 0, sendScore, {});
-            });
+            }
         };
         GameAnalytics.addDesignEvent = function (eventId, value) {
             GADevice.updateConnectionType();
-            GAThreading.performTaskOnGAThread(function () {
+            if (!GAState.instance.isUnloading) {
+                GAThreading.performTaskOnGAThread(function () {
+                    if (!GameAnalytics.isSdkReady(true, true, "Could not add design event")) {
+                        return;
+                    }
+                    var sendValue = typeof value === "number";
+                    GAEvents.addDesignEvent(eventId, sendValue ? value : 0, sendValue, {});
+                });
+            }
+            else {
                 if (!GameAnalytics.isSdkReady(true, true, "Could not add design event")) {
                     return;
                 }
                 var sendValue = typeof value === "number";
                 GAEvents.addDesignEvent(eventId, sendValue ? value : 0, sendValue, {});
-            });
+            }
         };
         GameAnalytics.addErrorEvent = function (severity, message) {
             if (severity === void 0) { severity = gameanalytics.EGAErrorSeverity.Undefined; }
             if (message === void 0) { message = ""; }
             GADevice.updateConnectionType();
-            GAThreading.performTaskOnGAThread(function () {
+            if (!GAState.instance.isUnloading) {
+                GAThreading.performTaskOnGAThread(function () {
+                    if (!GameAnalytics.isSdkReady(true, true, "Could not add error event")) {
+                        return;
+                    }
+                    GAEvents.addErrorEvent(severity, message, {});
+                });
+            }
+            else {
                 if (!GameAnalytics.isSdkReady(true, true, "Could not add error event")) {
                     return;
                 }
                 GAEvents.addErrorEvent(severity, message, {});
-            });
+            }
+        };
+        GameAnalytics.addAdEventWithNoAdReason = function (adAction, adType, adSdkName, adPlacement, noAdReason) {
+            if (adAction === void 0) { adAction = gameanalytics.EGAAdAction.Undefined; }
+            if (adType === void 0) { adType = gameanalytics.EGAAdType.Undefined; }
+            if (adSdkName === void 0) { adSdkName = ""; }
+            if (adPlacement === void 0) { adPlacement = ""; }
+            if (noAdReason === void 0) { noAdReason = gameanalytics.EGAAdError.Undefined; }
+            GADevice.updateConnectionType();
+            if (!GAState.instance.isUnloading) {
+                GAThreading.performTaskOnGAThread(function () {
+                    if (!GameAnalytics.isSdkReady(true, true, "Could not add ad event")) {
+                        return;
+                    }
+                    GAEvents.addAdEvent(adAction, adType, adSdkName, adPlacement, noAdReason, 0, false, {});
+                });
+            }
+            else {
+                if (!GameAnalytics.isSdkReady(true, true, "Could not add ad event")) {
+                    return;
+                }
+                GAEvents.addAdEvent(adAction, adType, adSdkName, adPlacement, noAdReason, 0, false, {});
+            }
+        };
+        GameAnalytics.addAdEventWithDuration = function (adAction, adType, adSdkName, adPlacement, duration) {
+            if (adAction === void 0) { adAction = gameanalytics.EGAAdAction.Undefined; }
+            if (adType === void 0) { adType = gameanalytics.EGAAdType.Undefined; }
+            if (adSdkName === void 0) { adSdkName = ""; }
+            if (adPlacement === void 0) { adPlacement = ""; }
+            if (duration === void 0) { duration = 0; }
+            GADevice.updateConnectionType();
+            if (!GAState.instance.isUnloading) {
+                GAThreading.performTaskOnGAThread(function () {
+                    if (!GameAnalytics.isSdkReady(true, true, "Could not add ad event")) {
+                        return;
+                    }
+                    GAEvents.addAdEvent(adAction, adType, adSdkName, adPlacement, gameanalytics.EGAAdError.Undefined, duration, true, {});
+                });
+            }
+            else {
+                if (!GameAnalytics.isSdkReady(true, true, "Could not add ad event")) {
+                    return;
+                }
+                GAEvents.addAdEvent(adAction, adType, adSdkName, adPlacement, gameanalytics.EGAAdError.Undefined, duration, true, {});
+            }
+        };
+        GameAnalytics.addAdEvent = function (adAction, adType, adSdkName, adPlacement) {
+            if (adAction === void 0) { adAction = gameanalytics.EGAAdAction.Undefined; }
+            if (adType === void 0) { adType = gameanalytics.EGAAdType.Undefined; }
+            if (adSdkName === void 0) { adSdkName = ""; }
+            if (adPlacement === void 0) { adPlacement = ""; }
+            GADevice.updateConnectionType();
+            if (!GAState.instance.isUnloading) {
+                GAThreading.performTaskOnGAThread(function () {
+                    if (!GameAnalytics.isSdkReady(true, true, "Could not add ad event")) {
+                        return;
+                    }
+                    GAEvents.addAdEvent(adAction, adType, adSdkName, adPlacement, gameanalytics.EGAAdError.Undefined, 0, false, {});
+                });
+            }
+            else {
+                if (!GameAnalytics.isSdkReady(true, true, "Could not add ad event")) {
+                    return;
+                }
+                GAEvents.addAdEvent(adAction, adType, adSdkName, adPlacement, gameanalytics.EGAAdError.Undefined, 0, false, {});
+            }
         };
         GameAnalytics.setEnabledInfoLog = function (flag) {
             if (flag === void 0) { flag = false; }
@@ -3576,6 +3883,12 @@ var gameanalytics;
         };
         GameAnalytics.getABTestingVariantId = function () {
             return GAState.getABTestingVariantId();
+        };
+        GameAnalytics.addOnBeforeUnloadListener = function (listener) {
+            GAState.addOnBeforeUnloadListener(listener);
+        };
+        GameAnalytics.removeOnBeforeUnloadListener = function (listener) {
+            GAState.removeOnBeforeUnloadListener(listener);
         };
         GameAnalytics.internalInitialize = function () {
             GAState.ensurePersistedStates();
